@@ -126,6 +126,13 @@ public class CommonAjaxController
 		session.setAttribute("list", subcategory);
 		return  toJSON(subcategory);
 	}
+	public String checkProducts(HttpServletRequest req,HttpServletResponse res) throws IOException, ServletException
+	{
+		HttpSession session=req.getSession();
+		List subcategory=new AdPostDAO().showProducts();
+		session.setAttribute("list", subcategory);
+		return  toJSON(subcategory);
+	}
 	public String checkAllProduct(HttpServletRequest req,HttpServletResponse res) throws IOException, ServletException
 	{
 		HttpSession session=req.getSession();

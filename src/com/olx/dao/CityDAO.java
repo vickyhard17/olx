@@ -22,7 +22,7 @@ public class CityDAO
 		try
 		{
 			session=HibernateUtil.hibernateConnection();
-			String sql="select c.pkcityid,c.cityname from State s join s.cities c where s.pkstateid=:id";
+			String sql="select c.pkcityid,c.cityname from State s join s.cities c where s.pkstateid=:id and c.isactive='Y'";
 			Query query=session.createQuery(sql);
 			query.setParameter("id", id);
 			 qry=query.list();

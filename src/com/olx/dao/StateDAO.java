@@ -31,7 +31,7 @@ public class StateDAO
 		try
 		{
 			session=HibernateUtil.hibernateConnection();
-			String sql="select s.pkstateid,s.statename from State s";
+			String sql="select s.pkstateid,s.statename from State s where s.isactive='Y'";
 			Query query=session.createQuery(sql);
 			 qry=query.list();
 			if(qry!=null && !qry.isEmpty())

@@ -30,7 +30,8 @@ public class UserDAO
 			transaction=session.beginTransaction();
 			session.save(userInfo);
 			transaction.commit();
-			String hql="select ui.pkuserid,ui.username,ui.usermobile,ui.isadmin from UserInfo ui where ui.useremail=:username and ui.userpassword=:password";
+			String hql="select ui.pkuserid,ui.username,ui.usermobile,ui.isadmin from UserInfo ui where "
+					+ " ui.useremail=:username and ui.userpassword=:password and ui.isactive='Y'";
 			Query query=session.createQuery(hql);
 			query.setParameter("username", userInfo.getUseremail());
 			query.setParameter("password", userInfo.getUserpassword());
@@ -64,7 +65,7 @@ public class UserDAO
 		try
 		{
 			session=HibernateUtil.hibernateConnection();
-			String hql="select ui from UserInfo ui where ui.usermobile =:contact";
+			String hql="select ui from UserInfo ui where ui.usermobile =:contact and ui.isactive='Y'";
 			Query qry=session.createQuery(hql);
 			qry.setParameter("contact", userInfo.getUsermobile());
 			List listQuery=qry.list();
@@ -89,7 +90,7 @@ public class UserDAO
 		try
 		{
 			session=HibernateUtil.hibernateConnection();
-			String hql="select ui from UserInfo ui where ui.useremail =:emailid";
+			String hql="select ui from UserInfo ui where ui.useremail =:emailid and ui.isactive='Y'";
 			Query qry=session.createQuery(hql);
 			qry.setParameter("emailid", userInfo.getUseremail());
 			List listQuery=qry.list();
@@ -115,7 +116,8 @@ public class UserDAO
 			try
 			{
 				session=HibernateUtil.hibernateConnection();
-				String hql="select ui.pkuserid,ui.username,ui.usermobile,ui.isadmin,ui.useremail from UserInfo ui where ui.useremail=:username and ui.userpassword=:password";
+				String hql="select ui.pkuserid,ui.username,ui.usermobile,ui.isadmin,ui.useremail from UserInfo ui where "
+									+ " ui.useremail=:username and ui.userpassword=:password and ui.isactive='Y'";
 				Query query=session.createQuery(hql);
 				query.setParameter("username", inputBean.getUserEmail());
 				query.setParameter("password", inputBean.getUserPassword());
@@ -153,7 +155,7 @@ public class UserDAO
 			userInfo.setUseremail(inputBeanSignup.getUserEmail());
 			String email=userInfo.getUseremail();
 			session=HibernateUtil.hibernateConnection();
-			String hql="select ui from UserInfo ui where ui.useremail=:email";
+			String hql="select ui from UserInfo ui where ui.useremail=:email and ui.isactive='Y'";
 			Query query=session.createQuery(hql);
 			query.setParameter("email", email);
 			 qry=query.list();
@@ -163,7 +165,7 @@ public class UserDAO
 				 {
 					 userInfo=(UserInfo)obj;
 					 System.out.println(userInfo.getPkuserid());
-					  pkid=userInfo.getPkuserid();
+					 pkid=userInfo.getPkuserid();
 				 }
 			 }
 			 else
@@ -194,7 +196,7 @@ public class UserDAO
 			session=HibernateUtil.hibernateConnection();
 			Date date=new Date();
 			String sql="select u "
-					+ " from UserInfo u where u.useremail=:email and u.isadmin='N'";
+							+ " from UserInfo u where u.useremail=:email and u.isadmin='N' and u.isactive='Y'";
 			Query query=session.createQuery(sql);
 			query.setString("email", email);
 			List list=query.list();

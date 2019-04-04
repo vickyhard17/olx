@@ -20,7 +20,7 @@ public class AreaDAO
 		try
 		{
 			session=HibernateUtil.hibernateConnection();
-			String sql="select a.pkareaid,a.areaname from City c join c.areas a where c.pkcityid=:id";
+			String sql="select a.pkareaid,a.areaname from City c join c.areas a where c.pkcityid=:id and a.isactive='Y'";
 			Query query=session.createQuery(sql);
 			query.setParameter("id", id);
 			 qry=query.list();

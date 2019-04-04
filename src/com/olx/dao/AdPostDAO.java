@@ -80,7 +80,7 @@ public class AdPostDAO
 					+ " join ap.userinfo u "
 					+ " join ap.categories c "
 					+ " where "
-					+ " ap.pkadid=:subid";
+					+ " ap.pkadid=:subid and ap.isactive='Y'";
 			Query query=session.createQuery(sql);
 			query.setParameter("subid", subid);
 			List list =query.list();
@@ -131,7 +131,7 @@ public class AdPostDAO
 					+ " join ap.userinfo u "
 					+ " join ap.categories c "
 					+ " where "
-					+ " c.pkcategoryid=:subid";
+					+ " c.pkcategoryid=:subid and ap.isactive='Y'";
 			Query query=session.createQuery(sql);
 			query.setParameter("subid", subid);
 			List list =query.list();
@@ -180,7 +180,7 @@ public class AdPostDAO
 						+ " join ap.userinfo u "
 						+ " join ap.categories c "
 						+ " where "
-						+ " u.pkuserid=:userid";
+						+ " u.pkuserid=:userid and ap.isactive='Y'";
 				Query querys=session.createQuery(sql);
 				querys.setParameter("userid", userid);
 				List list =querys.list();
@@ -226,7 +226,7 @@ public class AdPostDAO
 			session=HibernateUtil.hibernateConnection();
 			String sql="select u.username,u.useremail,u.usermobile,u.address from UserInfo u"
 						+ " where "
-						+ " u.pkuserid=:userid";
+						+ " u.pkuserid=:userid and u.isactive='Y'";
 				Query querys=session.createQuery(sql);
 				querys.setParameter("userid", userid);
 				List list =querys.list();
@@ -272,7 +272,7 @@ public class AdPostDAO
 						+ " join ap.userinfo u "
 						+ " join ap.categories c "
 						+ " where "
-						+ " ap.isverified='Y'";
+						+ " ap.isverified='Y' and ap.isactive='Y'";
 				Query querys=session.createQuery(sql);
 				List list =querys.list();
 				for(Object ob:list)
@@ -321,7 +321,7 @@ public class AdPostDAO
 						+ " join ap.userinfo u "
 						+ " join ap.categories c "
 						+ " where "
-						+ " ap.isverified='N'";
+						+ " ap.isverified='N' and ap.isactive='N'";
 				Query querys=session.createQuery(sql);
 				List list =querys.list();
 				if(list!=null && !list.isEmpty())
@@ -367,7 +367,7 @@ public class AdPostDAO
 			String sql=" select ap "
 						+ " from AdPost ap "
 						+ " where "
-						+ " ap.pkadid=:unverid";
+						+ " ap.pkadid=:unverid and ap.isactive='Y' ";
 				Query querys=session.createQuery(sql);
 				querys.setParameter("unverid", unverid);
 				List list =querys.list();
@@ -406,7 +406,7 @@ public class AdPostDAO
 			String sql=" select ap "
 						+ " from AdPost ap "
 						+ " where "
-						+ " ap.pkadid=:verid";
+						+ " ap.pkadid=:verid and ap.isactive='Y'";
 				Query querys=session.createQuery(sql);
 				querys.setParameter("verid", verid);
 				List list =querys.list();
@@ -434,6 +434,52 @@ public class AdPostDAO
 		}
 		return flag;
 	}
-
-
+	public List showProducts()
+	{
+		session=HibernateUtil.hibernateConnection();
+		AdPostOutBean bean=null;
+		List output=new ArrayList<>();
+		try
+		{
+			String sql=" select  ap.title,ap.description,ap.price, "
+					+ " a.areaname,ci.cityname,s.statename,c.categoryname,ap.pkadid,ap.imagename "
+					+ " from AdPost ap "
+					+ "  join ap.area a "
+					+ " join a.city ci "
+					+ " join ci.state s "
+					+ " join ap.userinfo u "
+					+ " join ap.categories c "
+					+ " where "
+					+ " ap.isactive='Y'";
+			Query query=session.createQuery(sql);
+			List list =query.list();
+			if(list!=null && !list.isEmpty())
+			{
+				for(Object ob:list)
+				{
+					bean=new AdPostOutBean();
+					Object adpost[]=(Object[])ob;
+					bean.setTitle((String)adpost[0]);
+					bean.setDescription((String)adpost[1]);
+					bean.setPrice((Float)adpost[2]);
+					bean.setArea((String)adpost[3]);
+					bean.setCity((String)adpost[4]);
+					bean.setState((String)adpost[5]);
+					bean.setSubcategory((String)adpost[6]);
+					bean.setAdid((Long)adpost[7]);
+					bean.setImagename((String)adpost[8]);
+					output.add(bean);
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			HibernateUtil.sessionClose(session);
+		}
+		return output;
+	}
 }

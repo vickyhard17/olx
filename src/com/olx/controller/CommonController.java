@@ -92,41 +92,44 @@ public class CommonController extends HttpServlet {
 				UserInfo result=null;
 				 if(email!=null && password!=null)
 				 {
-					try
-					{
 						result=helper1.validateLogin(inputBean);
-						if(result!=null && result.getIsadmin()=='N')
+						try
 						{
-							session.setAttribute("email", email);
-							session.setAttribute("password", password);
-							session.setAttribute("firstname", result.getUsername());
-							session.setAttribute("contact", result.getUsermobile());
-							session.setAttribute("pkid",result.getPkuserid());
-							session.setAttribute("isadmin",result.getIsadmin());
-							response.sendRedirect(request.getContextPath()+"/index.jsp");
+							if(result!=null && result.getIsadmin()=='N')
+							{
+								session.setAttribute("email", email);
+								session.setAttribute("password", password);
+								session.setAttribute("firstname", result.getUsername());
+								session.setAttribute("contact", result.getUsermobile());
+								session.setAttribute("pkid",result.getPkuserid());
+								session.setAttribute("isadmin",result.getIsadmin());
+								response.sendRedirect(request.getContextPath()+"/index.jsp");
+							}
+							else if(result!=null && result.getIsadmin()=='Y')
+							{
+								session.setAttribute("email", email);
+								session.setAttribute("password", password);
+								session.setAttribute("firstname", result.getUsername());
+								session.setAttribute("contact", result.getUsermobile());
+								session.setAttribute("pkid",result.getPkuserid());
+								session.setAttribute("isadmin",result.getIsadmin());
+								response.sendRedirect(request.getContextPath()+"/jsp/admin.jsp");
+							}
+							else
+							{
+								response.sendRedirect(request.getContextPath()+"/jsp/error.jsp");
+							}
 						}
-						else if(result!=null && result.getIsadmin()=='Y')
+						catch(Exception e)
 						{
-							session.setAttribute("email", email);
-							session.setAttribute("password", password);
-							session.setAttribute("firstname", result.getUsername());
-							session.setAttribute("contact", result.getUsermobile());
-							session.setAttribute("pkid",result.getPkuserid());
-							session.setAttribute("isadmin",result.getIsadmin());
-							response.sendRedirect(request.getContextPath()+"/jsp/admin.jsp");
+							response.sendRedirect(request.getContextPath()+"/jsp/error.jsp");
 						}
-						else
-						{
-							RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-							rd.include(request, response);
-						}				
 					} 
-					catch (Exception  e)
+				 	else
 					{
-						e.printStackTrace();	
-					} 
+						response.sendRedirect(request.getContextPath()+"/jsp/error.jsp");
+					}
 				 }
-				
 			}
 		else if("adpost".equals(action))
 			{
@@ -142,13 +145,20 @@ public class CommonController extends HttpServlet {
 				Long userid=(Long)session.getAttribute("pkid");
 				Long subid=Long.parseLong(request.getParameter("Subcateg"));
 				boolean adPost=new Helper().adPostUser(bean,id,userid,subid);
-				if(adPost)
+				try
 				{
-					response.sendRedirect(request.getContextPath()+"/jsp/success.jsp");
+					if(adPost)
+					{
+						response.sendRedirect(request.getContextPath()+"/jsp/success.jsp");
+					}
+					else
+					{
+						response.sendRedirect(request.getContextPath()+"/jsp/adposterror.jsp");
+					}
 				}
-				else
+				catch(Exception e)
 				{
-					response.sendRedirect(request.getContextPath()+"/jsp/error.jsp");
+					response.sendRedirect(request.getContextPath()+"/jsp/adposterror.jsp");
 				}
 			}
 			else if("admin".equals(action))
@@ -182,7 +192,7 @@ public class CommonController extends HttpServlet {
 				}
 				else
 				{
-					response.sendRedirect(request.getContextPath()+"/jsp/error.jsp");
+					response.sendRedirect(request.getContextPath()+"/jsp/adposterror.jsp");
 				}
 			}
 			else if("unverify".equals(action))
@@ -213,8 +223,7 @@ public class CommonController extends HttpServlet {
 					requestDispatcher.include(request, response);
 				}
 			}
-	}				
-		
+	
 		if(action1!=null && !"".equals(action1))
 		{
 			if("login1".equals(action1))

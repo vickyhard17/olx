@@ -107,6 +107,7 @@ public class Helper
 	{
 		UserDAO userDAO=new UserDAO();
 		UserInfo status=userDAO.showLoginRecord(loginInputBean);
+		System.out.println(status.toString());
 		return status;
 	}
 
