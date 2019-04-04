@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.olx.pojo.City" table="city">
+        <id name="pkcityid" column="pkcityid">
+            <generator class="native"/>
+        </id>
+        <property name="cityname" column="cityname" />
+        <property name="isactive" column="isactive" />
+        <property name="createddate" column="createddate" />
+        <property name="createdby" column="createdby" />
+        <property name="modifieddate" column="modifieddate" />
+        <property name="modifiedby" column="modifiedby" />
+ 
+        <set name="areas" cascade="all" >
+            <key column="fkcityid" />
+            <one-to-many class="com.olx.pojo.Area"/>
+        </set>
+           <many-to-one name="state" class="com.olx.pojo.State"
+            column="fkstateid"  cascade="all"/>
+    </class> 
+</hibernate-mapping>

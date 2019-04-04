@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.olx.pojo.AdPost" table="ad_post">
+        <id name="pkadid" column="pkadid">
+            <generator class="native"/>
+        </id>
+        <property name="title" column="title" />
+        <property name="description" column="description" />
+        <property name="price" column="price" />
+        <property name="imagename" column="imagename" />
+        <property name="showmobile" column="showmobile" />
+        <property name="isverified" column="isverified" />
+        <property name="isactive" column="isactive" />
+        <property name="createddate" column="createddate" />
+        <property name="createdby" column="createdby" />
+        <property name="modifieddate" column="modifieddate" />
+        <property name="modifiedby" column="modifiedby" />
+ 
+        <set name="adetails"  cascade="all" >
+            <key column="fkadpostid" />
+            <one-to-many class="com.olx.pojo.AdDetails"/>
+        </set>
+        <set name="chatroom"  cascade="all" >
+            <key column="fkadpostid" />
+            <one-to-many class="com.olx.pojo.ChatRoom"/>
+        </set>
+       <!--  <join table="area" >
+        <key column="pkareaid"></key> -->
+         <many-to-one name="area" class="com.olx.pojo.Area"
+          column="fkareaid"  />
+       <!--    </join> -->
+       <!--    <join table="user_info">
+          <key column="pkuserid"></key> -->
+          <many-to-one name="userinfo" class="com.olx.pojo.UserInfo"
+          column="fkuserid"  cascade="all"/>
+       <!--   </join> -->
+        <!--  <join table="categories" >
+         <key column="pkcategoryid"></key> -->
+           <many-to-one name="categories" class="com.olx.pojo.Categories"
+          	column="fkcategoryid" cascade="all" />
+        <!--   </join> -->
+    </class> 
+</hibernate-mapping>

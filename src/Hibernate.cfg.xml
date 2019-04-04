@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+<property name="connection.driver_class">com.mysql.jdbc.Driver
+</property>
+<property name="connection.url">jdbc:mysql://192.168.57.5/Shubham_Singh</property>
+<property name="connection.username">Shubham_Singh</property>
+<property name="connection.password">Shubham_Singh</property>
+
+<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+<property name="show_sql">true</property>
+  <mapping resource="com/olx/pojo/state.hbm.xml" />
+  <mapping resource="com/olx/pojo/city.hbm.xml" />
+  <mapping resource="com/olx/pojo/area.hbm.xml" />
+  <mapping resource="com/olx/pojo/userinfo.hbm.xml" />
+  <mapping resource="com/olx/pojo/adpost.hbm.xml" />
+  <mapping resource="com/olx/pojo/addetails.hbm.xml" />
+  <mapping resource="com/olx/pojo/categories.hbm.xml" />
+  <mapping resource="com/olx/pojo/chatroom.hbm.xml" />
+  <mapping resource="com/olx/pojo/chatinfo.hbm.xml" />
+ </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.olx.pojo.UserInfo" table="user_info">
+        <id name="pkuserid" column="pkuserid">
+            <generator class="native"/>
+        </id>
+        <property name="username" column="username" />
+        <property name="useremail" column="useremail" />
+        <property name="usermobile" column="usermobile" />
+        <property name="userpassword" column="userpassword" />
+         <property name="address" column="address" />
+        <property name="isadmin" column="isadmin" />
+        <property name="isactive" column="isactive" />
+        <property name="createddate" column="createddate" />
+        <property name="createdby" column="createdby" />
+        <property name="modifieddate" column="modifieddate" />
+        <property name="modifiedby" column="modifiedby" />
+ 
+        <set name="adpost" cascade="all" >
+            <key column="fkuserid" />
+            <one-to-many class="com.olx.pojo.AdPost"/>
+        </set>
+         <set name="chatroom"  cascade="all" >
+            <key column="fkbuyerid" />
+            <one-to-many class="com.olx.pojo.ChatRoom"/>
+        </set>
+        <many-to-one name="area" class="com.olx.pojo.Area"
+            column="fkareaid"  cascade="all" not-null="false" />
+    </class> 
+</hibernate-mapping>

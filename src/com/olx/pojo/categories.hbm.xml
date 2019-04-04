@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.olx.pojo.Categories" table="categories">
+        <id name="pkcategoryid" column="pkcategoryid">
+            <generator class="native"/>
+        </id>
+        <property name="categoryname" column="categoryname" />
+        <property name="isparent" column="isparent" />
+        <property name="isactive" column="isactive" />
+        <property name="createddate" column="createddate" />
+        <property name="createdby" column="createdby" />
+        <property name="modifieddate" column="modifieddate" />
+        <property name="modifiedby" column="modifiedby" />
+ 
+        <set name="adpost"  cascade="all" >
+            <key column="fkcategoryid" />
+            <one-to-many class="com.olx.pojo.AdPost"/>
+        </set>
+        <set name="categories"  cascade="all" >
+            <key column="fkcategoryid" />
+            <one-to-many class="com.olx.pojo.Categories"/>
+        </set>
+           <many-to-one name="category" class="com.olx.pojo.Categories"
+            column="fkcategoryid"  cascade="all"/>
+    </class> 
+</hibernate-mapping>
